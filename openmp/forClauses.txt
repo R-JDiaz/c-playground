@@ -1,0 +1,22 @@
+-reduction([OPERATION]:var)
+    -safetly updates the var that are being shared by multiple threads
+    -creates a private var for each thread and at the end of the loop 
+    combines all the partial var(sum,diff,etc) into the orig var
+-nowait
+    -rem the emplicit barrier at the end 
+-private(var)
+    -each thread have a copy of var. 
+-shared(var)
+    -default, all threads shares the var
+-collapse(n of loops)
+    -this lets the inner run in threading
+    -default of for is the outermost loop only in parallel but the inner are not
+-if(condition)
+    -run in parallel if condition is true else sequentially
+-num_threads(n)
+    -declares the number of threads explicitly
+-default(none) private(*vars) shared(*vars)
+    -none forces you to declare the  attibutes if the variables explicitly
+-for *clauses
+    -combinations of the clauesse above
+    -separator is space
