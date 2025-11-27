@@ -1,0 +1,7 @@
+OMP SCHEDULING 
+
+static - assigns a specific(evenly) iteration in each thread before execution(loop)
+dynamic - can be used as a loadbalancer, gives more on fast threads
+auto - lets the compiler choose what's best sched type to run
+guided - loads in large chunk sizes and decreases exponentially
+runtime - the sched type are assigned depending on the inputs(code)
