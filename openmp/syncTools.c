@@ -7,6 +7,13 @@ int main() {
     double start = omp_get_wtime();
     #pragma omp parallel
     {
+        printf("Thread %d before barrier\n", omp_get_thread_num());
+
+        #pragma omp barrier  
+
+        printf("Thread %d after barrier\n", omp_get_thread_num());
+
+        
         #pragma omp single 
         {
             printf("Synchronization tools in omp: \n");
