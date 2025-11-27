@@ -6,11 +6,12 @@ int main() {
 
     double start = omp_get_wtime();
     #pragma omp parallel for 
-    for (int i = 1; i <= 10; i++) {
-       /*  #pragma omp single 
+    /*  #pragma omp single 
         {
             printf("Synchronization tools in omp: ");
         } */
+    for (int i = 1; i <= 10; i++) {
+       
         #pragma omp critical 
         {
             sum += 1;
@@ -28,6 +29,16 @@ critical - (mutual exclusion) ensures that the block of code run only in a singl
 
 
 observations:
--if a for loop pragram omp para
+[1] if a forloop is inside a:
+
+PARALLEL
+-the the loop doubles(depends on the n of threads) because of multiple threads,
+in each those threads the loop got called leading to multiple for loop
+
+PARALLEL FOR 
+-only one one for loop , the multiple threads are applied to each loop not on the
+entire loop
+
+
 
 */
