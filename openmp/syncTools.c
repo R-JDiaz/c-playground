@@ -13,8 +13,8 @@ int main() {
 
         printf("Thread %d after barrier\n", omp_get_thread_num());
 
-        
-        #pragma omp single 
+
+        #pragma omp single //nowait
         {
             printf("Synchronization tools in omp: \n");
         }
@@ -37,7 +37,9 @@ int main() {
 
 /* notes:
 critical - (mutual exclusion) ensures that the block of code run only in a single thread.
-
+barrier - it was cool, a checkpoint that waits for all the threads to finish then lets it start from it.
+atomic - safe increment
+single - like atomic but for a block
 
 observations:
 [1] if a forloop is inside a:
