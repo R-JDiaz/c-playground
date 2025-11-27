@@ -4,6 +4,7 @@
 int main() {
     int sum = 0;
 
+    double start = omp_get_wtime();
     #pragma omp parallel for 
     for (int i = 1; i <= 10; i++) {
         #pragma omp critical 
@@ -14,10 +15,12 @@ int main() {
 
         printf("OutSide: Thread %d added %d, sum = %d\n", omp_get_thread_num(), i, sum);
     }
-
+    double end = omp_get_wtime();
+    printf("Time: %.3f ", end -start);
     printf("Total sum = %d\n", sum);
     return 0;
 }
 
 /* notes:
-critical - it isolates the process of t */
+critical - (mutual exclusion) ensures that the block of code run only in a single thread.
+*/
