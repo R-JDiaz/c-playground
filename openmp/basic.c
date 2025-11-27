@@ -17,7 +17,6 @@ int main() {
     
     double end = omp_get_wtime();
     printf(" Parallel time : %.4f\n\n", end - start);
-
     
     //Loop
     for (int i = 0; i < 9; i++) {
@@ -29,3 +28,12 @@ int main() {
     
     return 0;
 }
+
+/* observation/s:  
+    LOOP VS THREAD
+    
+    [A] PRINT (OUTPUT)
+    LOOP WINS MODERATELY
+
+    
+*/
