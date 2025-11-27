@@ -14,10 +14,6 @@ int main() {
     }
 
     #pragma omp parallel for 
-    /*  #pragma omp single 
-        {
-            printf("Synchronization tools in omp: ");
-        } */
     for (int i = 1; i <= 10; i++) {
        
         #pragma omp critical 
