@@ -9,7 +9,10 @@ int main() {
     #pragma omp parallel
     {
         printf("Hello from thread \n");
+        #pragma omp single 
+        {
         printf("Num of Threads: %d \n", omp_get_num_threads());
+        }
     }
     
     double end = omp_get_wtime();
@@ -17,12 +20,11 @@ int main() {
 
     
     //Loop
-    double start2 = omp_get_wtime();
     for (int i = 0; i < 9; i++) {
         printf("[%d] Hello from for loop \n", i);
     }
     double end2 = omp_get_wtime();
-    printf("Loop time : %.4f", end2 - start2);
+    printf("Loop time : %.4f", end2 - end);
     
     
     return 0;
