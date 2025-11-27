@@ -5,6 +5,14 @@ int main() {
     int sum = 0;
 
     double start = omp_get_wtime();
+    #pragma omp parallel
+    {
+        #pragma omp single 
+        {
+            printf("Synchronization tools in omp: \n");
+        }
+    }
+
     #pragma omp parallel for 
     /*  #pragma omp single 
         {
