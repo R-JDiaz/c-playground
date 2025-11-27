@@ -7,13 +7,15 @@ int main() {
     double start = omp_get_wtime();
     #pragma omp parallel for 
     for (int i = 1; i <= 10; i++) {
+       /*  #pragma omp single 
+        {
+            printf("Synchronization tools in omp: ");
+        } */
         #pragma omp critical 
         {
             sum += 1;
             printf("Thread %d added %d, sum = %d\n", omp_get_thread_num(), i, sum+1);
         }
-
-        printf("OutSide: Thread %d added %d, sum = %d\n", omp_get_thread_num(), i, sum);
     }
     double end = omp_get_wtime();
     printf("Time: %.3f ", end -start);
@@ -23,4 +25,9 @@ int main() {
 
 /* notes:
 critical - (mutual exclusion) ensures that the block of code run only in a single thread.
+
+
+observations:
+-if a for loop pragram omp para
+
 */
