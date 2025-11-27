@@ -5,7 +5,7 @@ int main() {
     int sum = 0;
 
     #pragma omp parallel for 
-    for (int 1 = 1; i <= 10; i ++) {
+    for (int i = 1; i <= 10; i++) {
         #pragma omp critical 
         {
             sum += 1;
