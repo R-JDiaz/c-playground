@@ -16,6 +16,12 @@ int main() {
         printf("Num of Threads: %d \n", omp_get_num_threads());
         }
     }
+    /*
+    set the n for 10000000 to see the difference 
+     #pragma omp parallel for reduction(+:sum)
+    for (int i = 0; i < n; i++) {
+        sum += i % 3;
+    } */
     printf("Sum : %d\n", sum);
     
     sum = 0;
