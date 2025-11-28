@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <omp.h>
 
 #define TEXT_FILE "./update.dat"
 #define stSize sizeof(Student)
@@ -77,17 +78,25 @@ void read(FILE *f) {
 }
 
 int main() {
+    #pragma omp parallel
+    double start = omp_get_wtime();
+    {
     FILE *file = fopen(TEXT_FILE, "rb+"); 
     if (!file) {
         printf("File failed to open");
         return 1;
     }
-
+    
+    
    /*  Student student = {1, "jay entio", "BSED"};
 
     insert(file, student); */
     displayStudent(file, 1);
-
-    fclose(file);
+    fclose(file);    
+    }
+    
+    double end = omp_get_wtime();
+    printf("TIME: %.2f", end-start);
     return 0;
 }
+ 
