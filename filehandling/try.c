@@ -19,7 +19,7 @@ typedef enum {
 
 void insert(FILE *f, Student student) {
     fseek(f, 0, SEEK_END);
-    fwrite(&student, stSize, 1, f);
+    fwrite(&student, sizeof(Student), 1, f);
 }
 
 size_t solveAttributeDistance(StudentAttr att) {
@@ -36,29 +36,33 @@ size_t solveAttributeDistance(StudentAttr att) {
 }
 
 
-Student customRead(FILE *f, StudentAttr att, int id) {
+Student customRead(FILE *f, int id) {
     rewind(f);
-    bool found;
-    int index_counter = 0;
-    int buffer = malloc(4);
     Student st;
-    while (found = false) {
-        fseek(f, index_counter, SEEK_SET);
-        if (fread(&buffer, sizeof(int), 1, f) == id) {
-            fread(&st, sizeof(Student), 1, f);
-            found = true;
-        } 
-        found = false;
+    while (fread(&st, sizeof(Student), 1, f) == 1) {
+        if (st.id == id) {
+            return st; // found
+        }
     }
-    return st;
+    // Return an "empty" student if not found
+    Student empty = {0};
+    return empty;
 }
-void displayStudent(FILE *f, StudentAttr att, int id) {
-    Student st = customRead(f, att, id);
-    printf("FOUND: ");
-    printf("ID : %d", st.id);
-    printf("NAME : %s", st.name);
-    printf("COURSE : %s", st.course);
+
+
+void displayStudent(FILE *f, int id) {
+    Student st = customRead(f, id);
+    if (st.id == 0) {
+        printf("Student not found\n");
+    } else {
+        printf("FOUND:\n");
+        printf("ID : %d\n", st.id);
+        printf("NAME : %s\n", st.name);
+        printf("COURSE : %s\n", st.course);
+    }
 }
+
+
 void read(FILE *f) {
     Student sModel;
     rewind(f); 
@@ -73,16 +77,16 @@ void read(FILE *f) {
 }
 
 int main() {
-    FILE *file = fopen(TEXT_FILE, "wb+"); 
+    FILE *file = fopen(TEXT_FILE, "rb+"); 
     if (!file) {
         printf("File failed to open");
         return 1;
     }
 
-    Student student = {1, "RJ DIAZ", "BSED"};
+   /*  Student student = {1, "jay entio", "BSED"};
 
-    insert(file, student);
-    read(file);
+    insert(file, student); */
+    displayStudent(file, 1);
 
     fclose(file);
     return 0;
