@@ -12,7 +12,16 @@ typedef struct Student{
     char course[5];
 } Student;
 
+void insertHeader(FILE *f) {
+    rewind(f);
+    int qty;
+    fread(&qty, sizeof(int), 1, f);
+    rewind(f);
+    qty++;
+    fwrite(qty, sizeof(int), 1, f);
+}
 void insert(FILE *f, Student *student) {
+    insertHeader(f);
     fseek(f, 0, SEEK_END);
     fwrite(student, sizeof(Student), 1, f);
     printf("ADDED SUCCESSFULLY\n");
@@ -67,6 +76,8 @@ void displayStudent(Student student) {
     printf("NAME: %s\n", student.name);
     printf("COURSE: %s\n\n", student.course);
 }
+
+
 int main() {
     FILE *file = fopen(DAT_FILE, "rb+");
     if (!file) {
