@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h> 
+#include <omp.h>
 
 #define DAT_FILE "act.dat"
 #define TMP_FILE "act.tmp"
@@ -20,11 +21,14 @@ void insertHeader(FILE *f) {
     qty++;
     fwrite(qty, sizeof(int), 1, f);
 }
-void insert(FILE *f, Student *student) {
+
+void insert(FILE *f, Student *student, omp_lock_t *lock) {
+    omp_set_lock(lock);
     insertHeader(f);
     fseek(f, 0, SEEK_END);
     fwrite(student, sizeof(Student), 1, f);
     printf("ADDED SUCCESSFULLY\n");
+    omp_unset_lock(lock);
 }
 
 Student get_student(FILE *f, int id) {
@@ -35,7 +39,7 @@ Student get_student(FILE *f, int id) {
             return stud;
         }
     }
-    Student empty = {0};  
+    Student empty = {0}; 
     return empty;
 }
 
@@ -84,15 +88,17 @@ int main() {
         FILE *file = fopen(DAT_FILE, "w");
         if (file) { fclose(file); };
     }
+    omp_lock_t lock;
+    omp_init_lock(&lock);
 
     Student stud = {2, "jay", "bscs"};
-    insert(file, &stud);
+    insert(file, &stud, &lock);
     displayStudent(get_student(file, 9));
     displayStudent(get_student(file, 1));
     displayStudent(get_student(file, 2));
     update(file, 2, "RJ", "BSED");
     displayStudent(get_student(file, 2));
-
-    
+    omp_destroy_lock(&lock);
+    fclose(file);
     return 0;
 }
